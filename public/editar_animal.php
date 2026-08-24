@@ -7,7 +7,7 @@ if (!isset($conn) || $conn === null) {
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-$sql = "SELECT * FROM animal WHERE id = ?";
+$sql = "SELECT * FROM animais WHERE id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i', $id);
 mysqli_stmt_execute($stmt);
@@ -15,29 +15,30 @@ $resultadoAnimal = mysqli_stmt_get_result($stmt);
 $animal = mysqli_fetch_assoc($resultadoAnimal);
 
 if (!$animal) {
-    die('animal não encontrado.');
+    die('Animal não encontrado.');
 }
 
-$sql = "SELECT * FROM usuarios";
+$sql = "SELECT * FROM donos";
 $resultado = mysqli_query($conn, $sql);
 
 if ($resultado === false) {
-    die('Erro ao consultar usuários: ' . mysqli_error($conn));
+    die('Erro ao consultar donos: ' . mysqli_error($conn));
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome']);
+    $raca = trim($_POST['raca']);
     $descricao = trim($_POST['descricao']);
-    $preco = $_POST['preco'];
-    $categoria = trim($_POST['categoria']);
-    $usuario_id = (int) $_POST['usuario'];
+    $idade = (int) $_POST['idade'];
+    $porte = trim($_POST['porte']);
+    $dono_id = (int) $_POST['dono'];
 
-    $sql = "UPDATE pratos SET nome = ?, descricao = ?, preco = ?, categoria = ?, id_usuario = ? WHERE id = ?";
+    $sql = "UPDATE animais SET nome = ?, raca = ?, descricao = ?, idade = ?, porte = ?, id_dono = ? WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssdsi', $nome, $descricao, $preco, $categoria, $usuario_id, $id);
+    mysqli_stmt_bind_param($stmt, 'sssisii', $nome, $raca, $descricao, $idade, $porte, $dono_id, $id);
 
     if (mysqli_stmt_execute($stmt)) {
-        echo "animal atualizado com sucesso!";
+        echo "Animal atualizado com sucesso!";
         echo "<br><a href='../index.php'>Voltar</a>";
         exit();
     } else {
