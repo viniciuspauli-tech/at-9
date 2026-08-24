@@ -8,10 +8,11 @@ create table donos (
     telefone varchar(20) not null
 );
 
-create table cachorros (
+create table animais (
     id int primary key auto_increment,
     nome varchar(100) not null,
     raca varchar(50) not null,
+    descricao text not null,
     idade int not null,
     porte varchar(20) not null,
 
@@ -31,45 +32,50 @@ insert into donos (nome, email, telefone) values
 ('Lucas Ferreira', 'lucas.ferreira@email.com', '11911118888'),
 ('Beatriz Martins', 'beatriz.martins@email.com', '11900009999');
 
-insert into cachorros (nome, raca, idade, porte, id_dono) values
-('Rex', 'Labrador', 3, 'grande', 1),
-('Bella', 'Poodle', 2, 'pequeno', 2),
-('Thor', 'Bulldog Francês', 4, 'pequeno', 3),
-('Mel', 'Golden Retriever', 1, 'grande', 4),
-('Bidu', 'Vira-lata', 5, 'médio', 5),
-('Luna', 'Shih Tzu', 2, 'pequeno', 6),
-('Max', 'Pastor Alemão', 6, 'grande', 7),
-('Nina', 'Chihuahua', 1, 'pequeno', 8),
-('Zeus', 'Rottweiler', 3, 'grande', 9),
-('Amora', 'Beagle', 2, 'médio', 10);
+insert into animais (nome, raca, descricao, idade, porte, id_dono) values
+('Rex', 'Labrador', 'Muito brincalhão e gosta de crianças', 3, 'grande', 1),
+('Bella', 'Poodle', 'Calma, late pouco', 2, 'pequeno', 2),
+('Thor', 'Bulldog Francês', 'Preguiçoso, adora dormir', 4, 'pequeno', 3),
+('Mel', 'Golden Retriever', 'Muito dócil e sociável', 1, 'grande', 4),
+('Bidu', 'Vira-lata', 'Agitado, precisa de bastante exercício', 5, 'médio', 5),
+('Luna', 'Shih Tzu', 'Tímida com estranhos', 2, 'pequeno', 6),
+('Max', 'Pastor Alemão', 'Protetor e obediente', 6, 'grande', 7),
+('Nina', 'Chihuahua', 'Late bastante, é bem territorial', 1, 'pequeno', 8),
+('Zeus', 'Rottweiler', 'Forte e leal ao dono', 3, 'grande', 9),
+('Amora', 'Beagle', 'Curiosa e cheia de energia', 2, 'médio', 10);
 
 
 
--- Listar todos os donos
+
 select * from donos;
 
--- Listar todos os cachorros
-select * from cachorros;
 
--- Listar cachorros junto com o nome do dono
-select cachorros.nome as cachorro, cachorros.raca, donos.nome as dono, donos.telefone
-from cachorros
-join donos on cachorros.id_dono = donos.id;
+select * from animais;
 
--- Buscar cachorro por nome
-select * from cachorros where nome = 'Rex';
 
--- Buscar dono por email
+select animais.nome as animal, animais.raca, animais.descricao, donos.nome as dono, donos.telefone
+from animais
+join donos on animais.id_dono = donos.id;
+
+
+select * from animais where id_dono = 1;
+
+
+select * from animais where nome = 'Rex';
+
+
 select * from donos where email = 'joao.silva@email.com';
 
 
--- Atualizar telefone do dono
+
+
 update donos set telefone = '11999998888' where id = 1;
 
--- Atualizar porte do cachorro
-update cachorros set porte = 'médio' where id = 1;
+
+update animais
+set nome = 'Rex', raca = 'Labrador', descricao = 'Muito brincalhão', idade = 4, porte = 'grande'
+where id = 1;
 
 
-
-delete from cachorros where id = 10;
+delete from animais where id = 10;
 
